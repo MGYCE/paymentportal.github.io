@@ -1,79 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Payment System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            font-weight: bold;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Student Cash Payment System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form, .receipt {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+    .receipt {
+      display: none;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Student Payment Form</h2>
-    <form action="payment_processing.php" method="post">
-        <label for="studentName">Full Name:</label>
-        <input type="text" id="studentName" name="studentName" required>
+  <h2>Student Cash Payment System</h2>
 
-        <label for="studentID">Student ID:</label>
-        <input type="text" id="studentID" name="studentID" required>
+  <form id="paymentForm">
+    <label>Student Name:</label>
+    <input type="text" id="studentName" required>
 
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
+    <label>Student ID:</label>
+    <input type="text" id="studentId" required>
 
-        <label for="amount">Payment Amount ($):</label>
-        <input type="number" id="amount" name="amount" required>
+    <label>Class / Grade:</label>
+    <input type="text" id="studentClass" required>
 
-        <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod" name="paymentMethod" required>
-            <option value="">-- Select Payment Method --</option>
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
-            <option value="bankTransfer">Bank Transfer</option>
-        </select>
+    <label>Payment Amount (USD):</label>
+    <input type="number" id="paymentAmount" required>
 
-        <button type="submit">Submit Payment</button>
-    </form>
-</div>
+    <label>Payment Date:</label>
+    <input type="date" id="paymentDate" required>
+
+    <button type="submit">Submit Payment</button>
+  </form>
+
+  <div class="receipt" id="receiptSection">
+    <h3>Payment Receipt</h3>
+    <p><strong>Student Name:</strong> <span id="rName"></span></p>
+    <p><strong>Student ID:</strong> <span id="rId"></span></p>
+    <p><strong>Class / Grade:</strong> <span id="rClass"></span></p>
+    <p><strong>Amount Paid:</strong> $<span id="rAmount"></span></p>
+    <p><strong>Date:</strong> <span id="rDate"></span></p>
+    <p><strong>Payment Method:</strong> Cash</p>
+    <hr>
+    <p style="text-align:center;">Thank you for your payment!</p>
+  </div>
+
+  <script>
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      document.getElementById('rName').textContent = document.getElementById('studentName').value;
+      document.getElementById('rId').textContent = document.getElementById('studentId').value;
+      document.getElementById('rClass').textContent = document.getElementById('studentClass').value;
+      document.getElementById('rAmount').textContent = parseFloat(document.getElementById('paymentAmount').value).toFixed(2);
+      document.getElementById('rDate').textContent = document.getElementById('paymentDate').value;
+
+      document.getElementById('receiptSection').style.display = 'block';
+    });
+  </script>
 
 </body>
 </html>
