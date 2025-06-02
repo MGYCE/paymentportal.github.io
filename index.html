@@ -1,144 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Manual Payment System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            border: 1px solid #ccc;
-            padding: 20px;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        .invoice {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        .submit-btn {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2>Student Manual Payment Form</h2>
-    <form id="paymentForm">
-        <label for="studentName">Student Name:</label>
-        <input type="text" id="studentName" required>
-
-        <label for="studentId">Student ID:</label>
-        <input type="text" id="studentId" required>
-
-        <label for="amount">Amount (USD):</label>
-        <input type="number" id="amount" required>
-
-        <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod">
-            <option value="Cash">Cash</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Credit Card">Credit Card</option>
-        </select>
-
-        <button type="button" class="submit-btn" onclick="generateInvoice()">Submit Payment</button>
-    </form>
-
-    <div class="invoice" id="invoiceSection" style="display:none;">
-        <p>✅ Payment Recorded Successfully!</p>
-        <p><strong>Invoice No:</strong> <span id="invoiceNumber"></span></p>
-    </div>
-</div>
-
-<script>
-    function generateInvoice() {
-        const invoiceNum = 'INV' + Date.now();  // Generates a unique invoice number
-        document.getElementById('invoiceNumber').textContent = invoiceNum;
-        document.getElementById('invoiceSection').style.display = 'block';
-
-        // Optional: You could also collect and store this data somewhere
-        const paymentData = {
-            studentName: document.getElementById('studentName').value,
-            studentId: document.getElementById('studentId').value,
-            amount: document.getElementById('amount').value,
-            paymentMethod: document.getElementById('paymentMethod').value,
-            invoiceNumber: invoiceNum
-        };
-
-        console.log("Payment Data:", paymentData); // For debugging
-        alert("Payment submitted successfully with Invoice No: " + invoiceNum);
-    }
-</script>
-</body>
-     <style>
+  <meta charset="UTF-8">
+  <title>Student Payment Portal</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 30px;
     }
     .container {
-      max-width: 400px;
+      max-width: 500px;
+      margin: auto;
     }
-    .output {
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+    }
+    .result {
       margin-top: 20px;
-      display: none;
+      padding: 15px;
       border: 1px solid #ccc;
-      padding: 10px;
-      background-color: #f7f7f7;
+      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Check Payment Details</h2>
-    <form id="paymentForm">
-      <label for="rollNo">Enter Roll Number:</label><br>
-      <input type="text" id="rollNo" name="rollNo" required><br><br>
-      <button type="submit">Get Details</button>
-    </form>
+    <h2>Student Payment Portal</h2>
 
-    <div class="output" id="output">
-      <p><strong>Roll No:</strong> <span id="displayRoll"></span></p>
-      <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
-      <p><strong>Invoice No:</strong> <span id="invoiceNo"></span></p>
-    </div>
+    <label for="rollNo">Enter Roll Number:</label>
+    <input type="text" id="rollNo" placeholder="e.g., 20250123">
+
+    <label for="paymentMethod">Select Payment Method:</label>
+    <select id="paymentMethod">
+      <option value="">-- Select --</option>
+      <option value="credit">Credit Card</option>
+      <option value="debit">Debit Card</option>
+      <option value="upi">UPI</option>
+      <option value="netbanking">Net Banking</option>
+    </select>
+
+    <button onclick="showDetails()">Get Payment Details</button>
+
+    <div class="result" id="paymentDetails" style="display: none;"></div>
   </div>
 
   <script>
-    const paymentData = {
-      "101": { paymentMethod: "Credit Card", invoiceNo: "INV123456" },
-      "102": { paymentMethod: "Bank Transfer", invoiceNo: "INV123457" },
-      "103": { paymentMethod: "Cash", invoiceNo: "INV123458" }
-    };
+    function showDetails() {
+      const rollNo = document.getElementById('rollNo').value.trim();
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      const detailsDiv = document.getElementById('paymentDetails');
 
-    document.getElementById("paymentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const rollNo = document.getElementById("rollNo").value.trim();
-
-      if (paymentData[rollNo]) {
-        document.getElementById("displayRoll").textContent = rollNo;
-        document.getElementById("paymentMethod").textContent = paymentData[rollNo].paymentMethod;
-        document.getElementById("invoiceNo").textContent = paymentData[rollNo].invoiceNo;
-        document.getElementById("output").style.display = "block";
-      } else {
-        alert("No data found for Roll No: " + rollNo);
-        document.getElementById("output").style.display = "none";
+      if (!rollNo || !paymentMethod) {
+        detailsDiv.style.display = 'block';
+        detailsDiv.innerHTML = "<strong>Please enter a roll number and select a payment method.</strong>";
+        return;
       }
-    });
+
+      let methodDetails = "";
+
+      switch (paymentMethod) {
+        case "credit":
+          methodDetails = "Pay using your credit card via secure gateway. Processing fee: ₹15.";
+          break;
+        case "debit":
+          methodDetails = "Pay using your debit card. Processing fee: ₹10.";
+          break;
+        case "upi":
+          methodDetails = "Pay instantly via UPI apps (PhonePe, Google Pay, etc.). No extra charges.";
+          break;
+        case "netbanking":
+          methodDetails = "Use your bank's net banking portal. Processing fee: ₹5.";
+          break;
+      }
+
+      detailsDiv.style.display = 'block';
+      detailsDiv.innerHTML = `
+        <strong>Roll Number:</strong> ${rollNo}<br>
+        <strong>Selected Method:</strong> ${paymentMethod.toUpperCase()}<br>
+        <strong>Details:</strong> ${methodDetails}
+      `;
+    }
   </script>
 </body>
 </html>
