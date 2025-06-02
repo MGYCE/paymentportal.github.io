@@ -1,83 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Student Cash Payment System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    form, .receipt {
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-    }
-    .receipt {
-      display: none;
-    }
-    h2 {
-      text-align: center;
-    }
-  </style>
+    <title>Student Manual Payment System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        .invoice {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .submit-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+    </style>
 </head>
 <body>
 
-  <h2>Student Cash Payment System</h2>
+<div class="container">
+    <h2>Student Manual Payment Form</h2>
+    <form id="paymentForm">
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" required>
 
-  <form id="paymentForm">
-    <label>Student Name:</label>
-    <input type="text" id="studentName" required>
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" required>
 
-    <label>Student ID:</label>
-    <input type="text" id="studentId" required>
+        <label for="amount">Amount (USD):</label>
+        <input type="number" id="amount" required>
 
-    <label>Class / Grade:</label>
-    <input type="text" id="studentClass" required>
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod">
+            <option value="Cash">Cash</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Credit Card">Credit Card</option>
+        </select>
 
-    <label>Payment Amount (USD):</label>
-    <input type="number" id="paymentAmount" required>
+        <button type="button" class="submit-btn" onclick="generateInvoice()">Submit Payment</button>
+    </form>
 
-    <label>Payment Date:</label>
-    <input type="date" id="paymentDate" required>
+    <div class="invoice" id="invoiceSection" style="display:none;">
+        <p>✅ Payment Recorded Successfully!</p>
+        <p><strong>Invoice No:</strong> <span id="invoiceNumber"></span></p>
+    </div>
+</div>
 
-    <button type="submit">Submit Payment</button>
-  </form>
+<script>
+    function generateInvoice() {
+        const invoiceNum = 'INV' + Date.now();  // Generates a unique invoice number
+        document.getElementById('invoiceNumber').textContent = invoiceNum;
+        document.getElementById('invoiceSection').style.display = 'block';
 
-  <div class="receipt" id="receiptSection">
-    <h3>Payment Receipt</h3>
-    <p><strong>Student Name:</strong> <span id="rName"></span></p>
-    <p><strong>Student ID:</strong> <span id="rId"></span></p>
-    <p><strong>Class / Grade:</strong> <span id="rClass"></span></p>
-    <p><strong>Amount Paid:</strong> $<span id="rAmount"></span></p>
-    <p><strong>Date:</strong> <span id="rDate"></span></p>
-    <p><strong>Payment Method:</strong> Cash</p>
-    <hr>
-    <p style="text-align:center;">Thank you for your payment!</p>
-  </div>
+        // Optional: You could also collect and store this data somewhere
+        const paymentData = {
+            studentName: document.getElementById('studentName').value,
+            studentId: document.getElementById('studentId').value,
+            amount: document.getElementById('amount').value,
+            paymentMethod: document.getElementById('paymentMethod').value,
+            invoiceNumber: invoiceNum
+        };
 
-  <script>
-    document.getElementById('paymentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      document.getElementById('rName').textContent = document.getElementById('studentName').value;
-      document.getElementById('rId').textContent = document.getElementById('studentId').value;
-      document.getElementById('rClass').textContent = document.getElementById('studentClass').value;
-      document.getElementById('rAmount').textContent = parseFloat(document.getElementById('paymentAmount').value).toFixed(2);
-      document.getElementById('rDate').textContent = document.getElementById('paymentDate').value;
-
-      document.getElementById('receiptSection').style.display = 'block';
-    });
-  </script>
+        console.log("Payment Data:", paymentData); // For debugging
+        alert("Payment submitted successfully with Invoice No: " + invoiceNum);
+    }
+</script>
 
 </body>
 </html>
