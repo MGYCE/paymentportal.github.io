@@ -39,10 +39,7 @@
     <label for="paymentMethod">Select Payment Method:</label>
     <select id="paymentMethod">
       <option value="">-- Select --</option>
-      <option value="credit">Credit Card</option>
-      <option value="debit">Debit Card</option>
       <option value="upi">UPI</option>
-      <option value="netbanking">Net Banking</option>
     </select>
 
     <button onclick="showDetails()">Get Payment Details</button>
@@ -65,17 +62,8 @@
       let methodDetails = "";
 
       switch (paymentMethod) {
-        case "credit":
-          methodDetails = "Pay using your credit card via secure gateway. Processing fee: ₹15.";
-          break;
-        case "debit":
-          methodDetails = "Pay using your debit card. Processing fee: ₹10.";
-          break;
         case "upi":
-          methodDetails = "Pay instantly via UPI apps (PhonePe, Google Pay, etc.). No extra charges.";
-          break;
-        case "netbanking":
-          methodDetails = "Use your bank's net banking portal. Processing fee: ₹5.";
+          methodDetails = "Pay instantly via UPI (PAYTM) apps (Paytm ID - 9863404623@ptsbi.). No extra charges. But Payment Screenshot Share via Whatsapp No - 9863404623.";
           break;
       }
 
