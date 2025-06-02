@@ -84,6 +84,61 @@
         alert("Payment submitted successfully with Invoice No: " + invoiceNum);
     }
 </script>
+</body>
+     <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .container {
+      max-width: 400px;
+    }
+    .output {
+      margin-top: 20px;
+      display: none;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Check Payment Details</h2>
+    <form id="paymentForm">
+      <label for="rollNo">Enter Roll Number:</label><br>
+      <input type="text" id="rollNo" name="rollNo" required><br><br>
+      <button type="submit">Get Details</button>
+    </form>
 
+    <div class="output" id="output">
+      <p><strong>Roll No:</strong> <span id="displayRoll"></span></p>
+      <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
+      <p><strong>Invoice No:</strong> <span id="invoiceNo"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const paymentData = {
+      "101": { paymentMethod: "Credit Card", invoiceNo: "INV123456" },
+      "102": { paymentMethod: "Bank Transfer", invoiceNo: "INV123457" },
+      "103": { paymentMethod: "Cash", invoiceNo: "INV123458" }
+    };
+
+    document.getElementById("paymentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const rollNo = document.getElementById("rollNo").value.trim();
+
+      if (paymentData[rollNo]) {
+        document.getElementById("displayRoll").textContent = rollNo;
+        document.getElementById("paymentMethod").textContent = paymentData[rollNo].paymentMethod;
+        document.getElementById("invoiceNo").textContent = paymentData[rollNo].invoiceNo;
+        document.getElementById("output").style.display = "block";
+      } else {
+        alert("No data found for Roll No: " + rollNo);
+        document.getElementById("output").style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
